@@ -1,0 +1,19 @@
+{
+  "name": "1_backend",
+  "version": "1.0.0",
+  "description": "First Professional backend project ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "author": "Mohini",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
