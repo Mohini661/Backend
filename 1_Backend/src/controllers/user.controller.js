@@ -218,7 +218,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  console.log(req.body);
 
   const user = await User.findById(req.user?._id);
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
@@ -242,16 +241,25 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetailes = asyncHandler(async (req, res) => {
+  const { fullName, email } = req.body;
+
+  if (!fullName || !email) {
+    throw new ApiError(400, "All fields are required");
+  }
+  // console.log("updating user", req.user, { fullName, email });
+
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
         fullName,
-        email,
+        email: email,
       },
     },
     { new: true }
   ).select("-password");
+
+  // console.log("updated user", user);
 
   return res
     .status(200)
@@ -437,6 +445,30 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     );
 });
 
+const deleteUser = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
+
+  const user = await User.findByIdAndDelete(userId, {
+    $unset: { refreshToken: 1 }, //this removes the field from document(optional for security)
+  });
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, user, "User deleted Successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -449,4 +481,5 @@ export {
   updateUserCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  deleteUser,
 };
