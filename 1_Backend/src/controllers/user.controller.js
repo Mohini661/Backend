@@ -446,7 +446,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.params;
   if (!userId) {
     throw new ApiError(400, "User ID is required");
   }
