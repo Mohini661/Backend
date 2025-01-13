@@ -15,6 +15,7 @@ const createTodo = asyncHandler(async (req, res) => {
     todoTask,
     description,
     isCompleted,
+    user: req.user?._id,
   });
 
   return res
@@ -64,9 +65,9 @@ const updateTodo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, todo, "Todo Updated successfully"));
 });
 const getAllTodo = asyncHandler(async (req, res) => {
-  //   const { todoId } = req.params;
+  // console.log("requested user", req.user._id);
 
-  const todo = await Todo.find();
+  const todo = await Todo.find({ user: req.user._id });
   return res
     .status(200)
     .json(new ApiResponse(200, todo, "Todos fetched successfully"));

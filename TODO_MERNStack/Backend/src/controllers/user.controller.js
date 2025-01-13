@@ -2,17 +2,19 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+    await user.save();
 
     return { accessToken, refreshToken };
   } catch (error) {
@@ -24,21 +26,11 @@ const generateAccessAndRefereshTokens = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  // get user details from frontend
-  // validation - not empty
-  // check if user already exists: username, email
-  // check for images, check for avatar
-  // upload them to cloudinary, avatar
-  // create user object - create entry in db
-  // remove password and refresh token field from response
-  // check for user creation
-  // return res
-
-  const { fullName, email, username, password } = req.body;
-  //console.log("email: ", email);
+  const { username, email, password } = req.body;
+  console.log(username);
 
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
+    [username, email, password].some((field) => !field || field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -52,10 +44,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    fullName,
+    username,
     email,
     password,
-    username: username.toLowerCase(),
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -72,29 +63,13 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  // req body -> data
-  // username or email
-  //find the user
-  //password check
-  //access and referesh token
-  //send cookie
-
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
   console.log(email);
 
-  if (!username && !email) {
-    throw new ApiError(400, "username or email is required");
+  if (!email) {
+    throw new ApiError(400, "Email is required");
   }
-
-  // Here is an alternative of above code based on logic discussed in video:
-  // if (!(username || email)) {
-  //     throw new ApiError(400, "username or email is required")
-
-  // }
-
-  const user = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw new ApiError(404, "User does not exist");
@@ -179,65 +154,4 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
-const getCurrentUser = asyncHandler(async (req, res) => {
-  return res
-    .status(200)
-    .json(new ApiResponse(200, req.user, "User fetched successfully"));
-});
-
-const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { fullName, email } = req.body;
-
-  if (!fullName || !email) {
-    throw new ApiError(400, "All fields are required");
-  }
-
-  const user = await User.findByIdAndUpdate(
-    req.user?._id,
-    {
-      $set: {
-        fullName,
-        email: email,
-      },
-    },
-    { new: true }
-  ).select("-password");
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "Account details updated successfully"));
-});
-
-const deleteUser = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
-  if (!userId) {
-    throw new ApiError(400, "User ID is required");
-  }
-
-  const user = await User.findByIdAndDelete(userId, {
-    $unset: { refreshToken: 1 }, //this removes the field from document(optional for security)
-  });
-
-  if (!user) {
-    throw new ApiError(404, "User not found");
-  }
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
-  return res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, user, "User deleted Successfully"));
-});
-
-export {
-  registerUser,
-  loginUser,
-  logoutUser,
-  changeCurrentPassword,
-  getCurrentUser,
-  updateAccountDetails,
-  deleteUser,
-};
+export { registerUser, loginUser, logoutUser, changeCurrentPassword };

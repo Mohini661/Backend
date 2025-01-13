@@ -11,7 +11,11 @@ const todoSchema = new Schema(
     },
     isCompleted: {
       type: Boolean,
-      default: false,
+      default: false, 
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
