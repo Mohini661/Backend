@@ -11,35 +11,26 @@ const Alert = () => {
     return lower.charAt(0).toUpperCase() + lower.slice(1);
   };
 
-  // Determine the alert style based on the alert type
-  const alertStyle = (type) => {
-    switch (type) {
-      case "success":
-        return "bg-green-100 text-green-700 border-green-400";
-      case "error":
-        return "bg-red-100 text-red-700 border-red-400";
-      case "warning":
-        return "bg-yellow-100 text-yellow-700 border-yellow-400";
-      case "info":
-        return "bg-blue-100 text-blue-700 border-blue-400";
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-400";
-    }
+  const alertStyles = {
+    success: "bg-green-100 text-green-800",
+    error: "bg-red-100 text-red-800",
+    warning: "bg-yellow-100 text-yellow-800",
+    info: "bg-blue-100 text-blue-800",
   };
 
   return (
     <div className="h-12">
       {alert && (
         <div
-          className={`flex items-center px-4 py-2 border rounded-md ${alertStyle(
-            alert.type
-          )}`}
+          className={`alert alert-${alert.type} ${
+            alertStyles[alert.type] || ""
+          } p-4 rounded-md shadow-md`}
           role="alert"
         >
           <strong className="font-semibold mr-2">
             {capitalize(alert.type)}
           </strong>
-          <span>{alert.msg}</span>
+          <span>{alert.message}</span>
         </div>
       )}
     </div>

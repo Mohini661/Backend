@@ -3,42 +3,65 @@ import AddTodo from "./AddTodo";
 import { todoContext } from "../context/TodoContext";
 import { useNavigate } from "react-router-dom";
 
+import { MdDelete, MdEdit } from "react-icons/md";
+
 const Todos = () => {
-  const { todos, getTodos, deleteTodo, updateTodo } = useContext(todoContext);
+  const {
+    todos,
+    getTodos,
+    deleteTodo,
+    todoTaskRef,
+    descriptionRef,
+    isCompletedRef,
+    todoIdRef,
+    addTodo,
+    // isLoading,
+    // setIsLoading,
+  } = useContext(todoContext);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getTodos();
-  }, [todos]);
+    const fetchTodos = async () => {
+      setIsLoading(true);
+      try {
+        await getTodos();
+      } catch (error) {
+        console.log("Error fetching todos!", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTodos();
+  }, []);
   // console.log(todos);
 
-  // const ref = useRef(null);
-  // const refClose = useRef(null);
-  // const [todo, setTodo] = useState({
-  //   etodoTask: "",
-  //   edescription: "",
-  //   eisCompleted: false,
-  // });
-  // const editTodo = (currentTodo) => {
-  //   ref.current.click();
-  //   setTodo({
-  //     etodoTask: currentTodo.todoTask,
-  //     edescription: currentTodo.description,
-  //     eisCompleted: currentTodo.isCompleted,
-  //   });
-  // };
-
-  // const handleClick = (e) => {
-  //   console.log("Updating the todo...", todo);
-  //   updateTodo(todo.etodoTask, todo.edescription, todo.eisCompleted);
-  //   refClose.current.click();
-  // };
+  const handleUpdate = (todo) => {
+    // console.log(todo);
+    todoIdRef.current.value = todo._id || "";
+    todoTaskRef.current.value = todo.todoTask || "";
+    descriptionRef.current.value = todo.description || "";
+    isCompletedRef.current.checked = todo.isCompleted || false;
+    setIsEditing(true);
+    // updateTodo(todoId, todoTask, description, isCompleted);
+  };
+  const resetForm = () => {
+    setIsEditing(false);
+  };
 
   return (
     <>
-      <AddTodo />
-      {todos.length > 0 ? (
+      <AddTodo isEditing={isEditing} resetForm={resetForm} />
+
+      {isLoading ? (
+        // <Loading />
+        <h1 className="text-3xl text-center mt-6 font-bold hover:text-gray-500">
+          Loading.....
+        </h1>
+      ) : (
         <>
+          {/* <AddTodo /> */}
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">
               Your To-Do List
@@ -79,15 +102,17 @@ const Todos = () => {
                     <div className="flex items-center gap-4 mt-2 sm:mt-0">
                       <button
                         className="text-blue-500 hover:text-blue-700 transition"
-                        onClick={() => editTodo(todo._id)}
+                        onClick={() => handleUpdate(todo)}
                       >
-                        Edit
+                        {/* Edit */}
+                        <MdEdit />
                       </button>
                       <button
-                        className="text-red-500 hover:text-red-700 transition"
+                        className="text-red-600 hover:text-red-700 transition"
                         onClick={() => deleteTodo(todo._id)}
                       >
-                        Delete
+                        {/* Delete */}
+                        <MdDelete />
                       </button>
                     </div>
                   </li>
@@ -96,10 +121,6 @@ const Todos = () => {
             </div>
           </div>
         </>
-      ) : (
-        <h1 className="text-3xl text-center mt-6 font-bold hover:text-gray-500">
-          Login to read Todos
-        </h1>
       )}
     </>
   );

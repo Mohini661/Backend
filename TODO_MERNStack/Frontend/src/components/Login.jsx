@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { todoContext } from "../context/TodoContext";
 
 const Login = () => {
-  //   const showAlert = useContext(todoContext);
+  const showAlert = useContext(todoContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const handleChange = (e) => {

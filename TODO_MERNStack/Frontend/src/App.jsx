@@ -6,15 +6,14 @@ import TodoContextProvider from "./context/TodoContext";
 import { Outlet } from "react-router-dom";
 import AddTodo from "./components/AddTodo";
 import Alert from "./components/Alert";
+// import Home from "./components/Home";
 
 function App() {
-
   return (
     <div className="w-full min-h-screen block bg-gray-100">
       <TodoContextProvider>
         <Navbar />
-        {/* <Alert /> */}
-        {/* <AddTodo /> */}
+        <Alert />
         <Outlet />
       </TodoContextProvider>
     </div>

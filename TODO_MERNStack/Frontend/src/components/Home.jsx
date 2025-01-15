@@ -1,19 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import { todoContext } from "../context/TodoContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { todos } = useContext(todoContext);
+  const { todos, isAuthenticated } = useContext(todoContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <>
-        <Todos />
-      {/* {todos.length > 0 ? (
-      ) : (
-        <h1 className="text-3xl text-center mt-6 font-bold hover:text-gray-500">
-          Login to read Todos
-        </h1>
-      )} */}
+      <Todos />
     </>
   );
 };
