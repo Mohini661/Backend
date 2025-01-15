@@ -46,8 +46,12 @@ const AddTodo = ({ isEditing, resetForm }) => {
       todoTaskRef.current.value = "";
       descriptionRef.current.value = "";
       isCompletedRef.current.checked = false;
-      showAlert("Added Successfully!!", "success");
+
+      isEditing
+        ? showAlert("Updated successfully", "success")
+        : showAlert("Added Successfully!!", "success");
       getTodos();
+
       resetForm(); //reset form to add mode
     } catch (error) {
       console.log(error.message);

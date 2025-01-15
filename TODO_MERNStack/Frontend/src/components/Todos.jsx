@@ -14,9 +14,8 @@ const Todos = () => {
     descriptionRef,
     isCompletedRef,
     todoIdRef,
+    showAlert,
     addTodo,
-    // isLoading,
-    // setIsLoading,
   } = useContext(todoContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +108,10 @@ const Todos = () => {
                       </button>
                       <button
                         className="text-red-600 hover:text-red-700 transition"
-                        onClick={() => deleteTodo(todo._id)}
+                        onClick={() => {
+                          deleteTodo(todo._id);
+                          showAlert("Deleted Successfully", "success");
+                        }}
                       >
                         {/* Delete */}
                         <MdDelete />
