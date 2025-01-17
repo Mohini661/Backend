@@ -7,7 +7,7 @@ const TodoContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
-  const host = "http://localhost:5000";
+  const host = "http://localhost:5001";
   const [todos, setTodos] = useState([]);
 
   const todoIdRef = useRef(null);

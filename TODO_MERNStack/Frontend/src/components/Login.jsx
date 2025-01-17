@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { todoContext } from "../context/TodoContext";
 
-
 const Login = () => {
   // const { showAlert, alert } = useContext(todoContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,7 +15,7 @@ const Login = () => {
     const { email, password } = formData;
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/users/login", {
+      const response = await fetch("http://localhost:5001/api/v1/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +40,6 @@ const Login = () => {
   };
   return (
     <>
-      
       <div className="min-h-screen flex items-center justify-center bg-gray-100 ">
         <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-700">

@@ -8,7 +8,7 @@ const Signup = () => {
     password: "",
   });
   let navigate = useNavigate();
-//   const [error, setError] = useState("");
+  //   const [error, setError] = useState("");
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -19,7 +19,7 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/users/register",
+        "http://localhost:5001/api/v1/users/register",
         {
           method: "POST",
           headers: {
