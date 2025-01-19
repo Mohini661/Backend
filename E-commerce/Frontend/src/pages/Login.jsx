@@ -1,7 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    console.log("email", email, password);
+
+    try {
+      const response = await fetch("http://localhost:5002/api/v1/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+
+      const userData = await response.json();
+      console.log(userData);
+
+      if (sessionStorage.setItem("token",userData.data.accessToken)) {
+        
+      }
+    } catch (error) {
+      console.log("Error while login ", error);
+    }
+  };
   return (
     <>
       <div className="container-fluid bg-secondary mb-5">
@@ -31,10 +63,16 @@ const Login = () => {
           <div className="col-lg-7 mb-5 mx-auto">
             <div className="contact-form">
               <div id="success"></div>
-              <form name="sentMessage" id="contactForm" noValidate="noValidate">
+              <form
+                name="sentMessage"
+                id="contactForm"
+                noValidate="noValidate"
+                onSubmit={handleLogin}
+              >
                 <div className="control-group">
                   <input
                     type="email"
+                    ref={emailRef}
                     className="form-control"
                     id="email"
                     placeholder="Your Email"
@@ -46,6 +84,7 @@ const Login = () => {
                 <div className="control-group">
                   <input
                     type="password"
+                    ref={passwordRef}
                     className="form-control"
                     id="pass"
                     placeholder="Your Password"
@@ -64,6 +103,11 @@ const Login = () => {
                     Sign In
                   </button>
                 </div>
+                <p className="text-center mt-4 fw-bold">
+                  <Link to="/forgot-password" className="text-decoration-none">
+                    Forgot Password?
+                  </Link>
+                </p>
               </form>
             </div>
           </div>

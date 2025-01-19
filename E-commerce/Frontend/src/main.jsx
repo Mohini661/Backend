@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/css/style.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -15,6 +17,7 @@ import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Cart from "./pages/Cart.jsx";
+import SetPassword from "./components/SetPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,10 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
     ],
+  },
+  {
+    path: "/set-password/:id",
+    element: <SetPassword />,
   },
 ]);
 

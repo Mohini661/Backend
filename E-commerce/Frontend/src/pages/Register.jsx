@@ -3,24 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 
 const Register = () => {
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { addUser, unameRef, emailRef, phoneRef, passwordRef, cpasswordRef } =
-    useContext(Context);
+  const { addUser, unameRef, emailRef, phoneRef } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let username = unameRef.current.value;
     let email = emailRef.current.value;
-    let password = passwordRef.current.value;
     let phone = phoneRef.current.value;
-    let cpassword = cpasswordRef.current.value;
 
-    if (password !== cpassword) {
-      setError("Passwords do not match!");
-      return;
-    }
     // Phone number validation (example: 10-digit number)
     const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(phone)) {
@@ -28,15 +21,13 @@ const Register = () => {
       return;
     }
     try {
-      await addUser(username, email, phone, password, cpassword);
+      await addUser(username, email, phone);
 
       unameRef.current.value = " ";
       emailRef.current.value = " ";
       phoneRef.current.value = "";
-      passwordRef.current.value = "";
-      cpasswordRef.current.value = "";
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log("Error adding user", error);
     }
@@ -116,7 +107,7 @@ const Register = () => {
                   />
                   <p className="help-block text-danger"></p>
                 </div>
-                <div className="control-group">
+                {/* <div className="control-group">
                   <input
                     ref={passwordRef}
                     type="password"
@@ -140,7 +131,7 @@ const Register = () => {
                   />
 
                   <p className="help-block text-danger"></p>
-                </div>
+                </div> */}
 
                 <div>
                   <button

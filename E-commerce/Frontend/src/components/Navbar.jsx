@@ -9,54 +9,6 @@ const Navbar = () => {
     <>
       <div className="container-fluid mb-4">
         <div className="row border-top px-xl-5">
-          {/* <div className="col-lg-3 d-none d-lg-block postion-relative">
-          <a
-            className="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100"
-            data-toggle="collapse"
-            href="#navbar-vertical"
-            style={{ height: "65px", marginTop: "-1px", padding: "0 30px" }}
-          >
-            <h6 className="m-0">Categories</h6>
-            <i className="fa fa-angle-down text-dark"></i>
-          </a>
-          <nav
-            className="collapse  show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
-            id="navbar-vertical"
-          >
-            <div
-              className="navbar-nav w-100 overflow-hidden"
-              style={{ height: "410px" }}
-            >
-              <a href="" className="nav-item nav-link">
-                Shirts
-              </a>
-              <a href="" className="nav-item nav-link">
-                Jeans
-              </a>
-              <a href="" className="nav-item nav-link">
-                Swimwear
-              </a>
-              <a href="" className="nav-item nav-link">
-                Sleepwear
-              </a>
-              <a href="" className="nav-item nav-link">
-                Sportswear
-              </a>
-              <a href="" className="nav-item nav-link">
-                Jumpsuits
-              </a>
-              <a href="" className="nav-item nav-link">
-                Blazers
-              </a>
-              <a href="" className="nav-item nav-link">
-                Jackets
-              </a>
-              <a href="" className="nav-item nav-link">
-                Shoes
-              </a>
-            </div>
-          </nav>
-        </div> */}
           <div className="col-lg-12">
             <nav className="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
               <a href="" className="text-decoration-none d-block d-lg-none">
@@ -96,26 +48,6 @@ const Navbar = () => {
                   >
                     Shop
                   </Link>
-                  {/* <a href="detail.html" className="nav-item nav-link">
-                    Shop Detail
-                  </a> */}
-                  {/* <div class="nav-item dropdown">
-                    <a
-                      href="#"
-                      class="nav-link dropdown-toggle"
-                      data-toggle="dropdown"
-                    >
-                      Pages
-                    </a>
-                    <div class="dropdown-menu rounded-0 m-0">
-                      <a href="cart.html" class="dropdown-item">
-                        Shopping Cart
-                      </a>
-                      <a href="checkout.html" class="dropdown-item">
-                        Checkout
-                      </a>
-                    </div>
-                  </div> */}
                   <Link
                     to="/contact"
                     className={`nav-item nav-link  ${
@@ -134,22 +66,22 @@ const Navbar = () => {
                   >
                     Login
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/register"
                     className={`nav-item nav-link  ${
                       location.pathname === "/register" ? "active" : ""
                     }`}
                   >
                     Register
-                  </Link>
-                  <Link
+                  </Link> */}
+                  {/* <Link
                     to="/dashboard"
                     className={`nav-item nav-link  ${
                       location.pathname === "/dashboard" ? "active" : ""
                     }`}
                   >
                     Dashboard
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </nav>

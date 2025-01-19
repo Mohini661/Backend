@@ -21,7 +21,8 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [false, "Password is required"],
+      default: "",
     },
     phone: {
       type: String,
@@ -49,6 +50,12 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
+};
+
+// Method to set a new password
+userSchema.methods.setPassword = async function (newPassword) {
+  this.password = await bcrypt.hash(newPassword, 10);
+ 
 };
 
 userSchema.methods.generateAccessToken = function () {
