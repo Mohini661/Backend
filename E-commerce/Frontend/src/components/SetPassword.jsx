@@ -7,7 +7,7 @@ const SetPassword = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   // console.log(searchParams.get("expiresAt"));
-  const expiresAt = searchParams.get("expiresAt"); 
+  const expiresAt = searchParams.get("expiresAt");
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
@@ -37,16 +37,18 @@ const SetPassword = () => {
           }),
         }
       );
-      const password = await response.json();
-      setSuccess("Password generated Successfully");
-      console.log(password);
+      if (response.ok) {
+        setError("");
+        navigate("/success-msg"); // Navigate to success page
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to set password. Try again.");
+      }
     } catch (error) {
-      console.log("Error set Password");
+      console.log("Error set Password", error);
     }
-    setError("");
     setNewPassword("");
     setCpassword("");
-    navigate("/");
   };
 
   return (

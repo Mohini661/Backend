@@ -10,8 +10,6 @@ const Login = () => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log("email", email, password);
-
     try {
       const response = await fetch("http://localhost:5002/api/v1/users/login", {
         method: "POST",
@@ -27,8 +25,9 @@ const Login = () => {
       const userData = await response.json();
       console.log(userData);
 
-      if (sessionStorage.setItem("token",userData.data.accessToken)) {
-        
+      if (userData.success) {
+        sessionStorage.setItem("token", userData.data.accessToken);
+        navigate("/");
       }
     } catch (error) {
       console.log("Error while login ", error);

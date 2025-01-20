@@ -18,6 +18,7 @@ import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Cart from "./pages/Cart.jsx";
 import SetPassword from "./components/SetPassword.jsx";
+import SuccessPassMsg from "./components/SuccessPassMsg.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+
       {
         path: "/dashboard",
         element: <Dashboard />,
@@ -49,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/set-password/:id",
     element: <SetPassword />,
+  },
+  {
+    path: "/success-msg",
+    element: <SuccessPassMsg />,
   },
 ]);
 

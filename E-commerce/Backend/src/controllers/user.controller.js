@@ -79,7 +79,7 @@ const setPassword = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { expiresAt } = req.query; // Get expiration timestamp from query
     const { newPassword, cpassword } = req.body;
-    console.log("Query", req.query);
+    // console.log("Query", req.query);
 
     if (!expiresAt || Date.now() > Number(expiresAt)) {
       return res
@@ -114,6 +114,7 @@ const setPassword = asyncHandler(async (req, res) => {
     console.log("error", error);
   }
 });
+
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;

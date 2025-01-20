@@ -1,10 +1,16 @@
 import React from "react";
 import c1 from "../assets/img/carousel-1.jpg";
 import c2 from "../assets/img/carousel-2.jpg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const isAuthenticated = sessionStorage.getItem("token");
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <>
       <div className="container-fluid mb-4">
@@ -58,30 +64,49 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div className="navbar-nav ml-auto py-0">
-                  <Link
-                    to="/login"
-                    className={`nav-item nav-link  ${
-                      location.pathname === "/login" ? "active" : ""
-                    }`}
-                  >
-                    Login
-                  </Link>
-                  {/* <Link
-                    to="/register"
-                    className={`nav-item nav-link  ${
-                      location.pathname === "/register" ? "active" : ""
-                    }`}
-                  >
-                    Register
-                  </Link> */}
-                  {/* <Link
-                    to="/dashboard"
-                    className={`nav-item nav-link  ${
-                      location.pathname === "/dashboard" ? "active" : ""
-                    }`}
-                  >
-                    Dashboard
-                  </Link> */}
+                  {isAuthenticated ? (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        className={`nav-item nav-link  ${
+                          location.pathname === "/dashboard" ? "active" : ""
+                        }`}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        to="/login"
+                        className={`nav-item nav-link  ${
+                          location.pathname === "/logout" ? "active" : ""
+                        }`}
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className={`nav-item nav-link  ${
+                          location.pathname === "/login" ? "active" : ""
+                        }`}
+                      >
+                        Login
+                      </Link>
+                      {/* <Link
+                        to="/register"
+                        className={`nav-item nav-link  ${
+                          location.pathname === "/register" ? "active" : ""
+                        }`}
+                      >
+                        Register
+                      </Link> */}
+                    </>
+                  )}
+
+                  {/*  */}
+                  {/*  */}
                 </div>
               </div>
             </nav>
