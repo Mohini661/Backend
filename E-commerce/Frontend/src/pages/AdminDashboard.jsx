@@ -1,13 +1,13 @@
 import React from "react";
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   return (
     <div>
       <h1 className="font-weight-bold p-5 text-center items-center">
-        User Dashboard
+        Admin Dashboard
       </h1>
     </div>
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

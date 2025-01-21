@@ -22,19 +22,7 @@ const SuccessPassMsg = () => {
           to your account.
         </p>
         {/* <hr /> */}
-        <p className="mb-0">
-          {/* If you face any issues, feel free to{" "} */}
-          {/* <a href="#" className="alert-link">
-              login
-            </a>
-            . */}
-        </p>
-        {/* <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button> */}
+        
       </div>
     </div>
     // </div>

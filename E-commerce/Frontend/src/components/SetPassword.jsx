@@ -37,12 +37,12 @@ const SetPassword = () => {
           }),
         }
       );
+      console.log(response);
+
       if (response.ok) {
-        setError("");
         navigate("/success-msg"); // Navigate to success page
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Failed to set password. Try again.");
+        console.log("Failed to set password. Try again.");
       }
     } catch (error) {
       console.log("Error set Password", error);

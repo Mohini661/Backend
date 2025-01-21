@@ -1,34 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../context/Context";
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { emailRef, passwordRef, login } = useContext(Context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     try {
-      const response = await fetch("http://localhost:5002/api/v1/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      await login(email, password);
 
       emailRef.current.value = "";
       passwordRef.current.value = "";
 
-      const userData = await response.json();
-      console.log(userData);
-
-      if (userData.success) {
-        sessionStorage.setItem("token", userData.data.accessToken);
-        navigate("/");
-      }
+      navigate("/");
     } catch (error) {
       console.log("Error while login ", error);
     }
@@ -80,16 +70,28 @@ const Login = () => {
                   />
                   <p className="help-block text-danger"></p>
                 </div>
-                <div className="control-group">
+                <div className="control-group position-relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     ref={passwordRef}
                     className="form-control"
                     id="pass"
                     placeholder="Your Password"
                     required="required"
                     data-validation-required-message="Please enter password"
-                  />
+                  />{" "}
+                  <i
+                    className={`btn btn-link position-absolute bi ${
+                      showPassword ? "bi-eye-slash" : "bi-eye"
+                    } `}
+                    style={{
+                      right: "14px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      padding: 0,
+                    }}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  ></i>
                   <p className="help-block text-danger"></p>
                 </div>
 

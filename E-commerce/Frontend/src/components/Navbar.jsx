@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import c1 from "../assets/img/carousel-1.jpg";
 import c2 from "../assets/img/carousel-2.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Context } from "../context/Context";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isAuthenticated = sessionStorage.getItem("token");
+  const { isAuthenticated, logout, role } = useContext(Context);
+
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    navigate("/login");
+    logout();
+    localStorage.removeItem("token");
+    navigate("/");
   };
+
   return (
     <>
       <div className="container-fluid mb-4">
@@ -66,23 +70,23 @@ const Navbar = () => {
                 <div className="navbar-nav ml-auto py-0">
                   {isAuthenticated ? (
                     <>
-                      <Link
-                        to="/dashboard"
-                        className={`nav-item nav-link  ${
-                          location.pathname === "/dashboard" ? "active" : ""
-                        }`}
-                      >
-                        Dashboard
-                      </Link>
-                      <Link
-                        to="/login"
-                        className={`nav-item nav-link  ${
-                          location.pathname === "/logout" ? "active" : ""
-                        }`}
-                        onClick={handleLogout}
+                      {role === "admin" ? (
+                        <Link
+                          // to={`/dashboard/${role === "admin" && "admin"}`}
+                          to={"/dashboard/admin"}
+                          className={`nav-item nav-link  ${
+                            location.pathname === "/dashboard" ? "active" : ""
+                          }`}
+                        >
+                          Dashboard
+                        </Link>
+                      ) : null}
+                      <button
+                        className={`nav-item nav-link btn btn-link`} //
+                        onClick={() => handleLogout()}
                       >
                         Logout
-                      </Link>
+                      </button>
                     </>
                   ) : (
                     <>
