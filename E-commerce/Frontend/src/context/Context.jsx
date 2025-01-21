@@ -59,6 +59,7 @@ const ContextProvider = ({ children }) => {
     }
   };
 
+  //call logout api fix issue of remove refreshToken from db
   const logout = async () => {
     try {
       const accessToken = localStorage.getItem("token");
