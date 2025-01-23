@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "../context/CartContext.jsx";
 
 const Product = ({ product }) => {
+  const { addToCart } = useContext(CartContext);
   // const navigate = useNavigate();
   // const handleClick = (id) => {
   //   navigate(`/product/${id}`);
   // };
+  // console.log(product.id);
+
   return (
     <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
       <div className="card product-item border-0 mb-4">
@@ -30,10 +34,14 @@ const Product = ({ product }) => {
           >
             <i className="fas fa-eye text-primary mr-1"></i>View Detail
           </Link>
-          <a href="" className="btn btn-sm text-dark p-0">
+          <Link
+            to=""
+            className="btn btn-sm text-dark p-0"
+            onClick={() => addToCart(product.id)}
+          >
             <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
             Cart
-          </a>
+          </Link>
         </div>
       </div>
     </div>

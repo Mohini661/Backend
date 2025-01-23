@@ -1,6 +1,7 @@
 import { createContext, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const Context = createContext();
 
@@ -11,6 +12,7 @@ const ContextProvider = ({ children }) => {
     !!localStorage.getItem("token")
   );
   const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
   //register user
   const unameRef = useRef();
@@ -30,9 +32,20 @@ const ContextProvider = ({ children }) => {
         body: JSON.stringify({ username, email, phone }),
       });
       const userData = await response.json();
-      console.log(userData.data);
+      console.log(userData);
+      if (userData.success && response.ok) {
+        toast.success("User registered successfully!");
+        console.log(userData.message);
+
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(userData.message);
+      }
     } catch (error) {
       console.log("Error adding user", error);
+      toast.error("An error occurred while registering the user");
     }
   };
 
@@ -47,15 +60,41 @@ const ContextProvider = ({ children }) => {
       });
       const userData = await response.json();
       console.log(userData.data);
-      if (userData.success) {
+      if (userData.success && response.ok) {
         localStorage.setItem("token", userData.data.accessToken);
         setIsAuthenticated(true);
-        setRole(userData.data.user?.role);
+        setRole(userData.data.user.role);
+
+        toast.success(
+          userData.message ||
+            `${userData.data.user.role} logged In Successfully!`,
+          {
+            position: "top-center",
+            autoClose: 3000,
+          }
+        );
+        if (userData.data.user.role === "user") {
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            navigate("/dashboard/admin");
+          }, 2000);
+        }
       } else {
-        console.log("Login Failed", userData.data.message);
+        // console.log("Login Failed", userData.data.message);
+        toast.error(
+          userData.message || "Login Failed",
+          {
+            position: "top-center",
+            autoClose: 3000,
+          }
+        );
       }
     } catch (error) {
       console.log("Error while login", error.message);
+      toast.error("");
     }
   };
 

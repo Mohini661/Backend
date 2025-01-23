@@ -1,24 +1,30 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { emailRef, passwordRef, login } = useContext(Context);
+  const { emailRef, passwordRef, login, role } = useContext(Context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError("");
+
     try {
       await login(email, password);
 
       emailRef.current.value = "";
       passwordRef.current.value = "";
-
-      navigate("/");
     } catch (error) {
       console.log("Error while login ", error);
     }
@@ -52,6 +58,7 @@ const Login = () => {
           <div className="col-lg-7 mb-5 mx-auto">
             <div className="contact-form">
               <div id="success"></div>
+              {error && <div className="alert alert-danger">{error}</div>}
               <form
                 name="sentMessage"
                 id="contactForm"
@@ -110,6 +117,7 @@ const Login = () => {
                   </Link>
                 </p>
               </form>
+              <ToastContainer />
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
+import { ToastContainer, toast } from "react-toastify";
 
 const Register = () => {
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const { addUser, unameRef, emailRef, phoneRef } = useContext(Context);
 
   const handleSubmit = async (e) => {
@@ -14,20 +14,27 @@ const Register = () => {
     let email = emailRef.current.value;
     let phone = phoneRef.current.value;
 
-    // Phone number validation (example: 10-digit number)
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-      setError("Please enter a valid phone number (10 digits).");
+    if (!username || username.trim().length < 3) {
+      setError("Name must be at least 3 characters.");
       return;
     }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!phone || !/^\+91\d{10}$/.test(phone)) {
+      setError("Please enter a valid phone number starting with +91.");
+      return;
+    }
+
+    setError(""); // Clear errors before submitting
+
     try {
       await addUser(username, email, phone);
 
       unameRef.current.value = " ";
       emailRef.current.value = " ";
       phoneRef.current.value = "";
-
-      navigate("/");
     } catch (error) {
       console.log("Error adding user", error);
     }
@@ -63,8 +70,7 @@ const Register = () => {
         <div className="row px-xl-5 ">
           <div className="col-lg-7 mb-5 mx-auto">
             <div className="contact-form">
-              <div id="success"></div>
-              {/* {error && <div className="alert alert-danger">{error}</div>} */}
+              {error && <div className="alert alert-danger">{error}</div>}
               <form
                 name="sentMessage"
                 id="contactForm"
@@ -101,38 +107,12 @@ const Register = () => {
                     type="text"
                     className="form-control"
                     id="phone"
-                    placeholder="Your Phone"
+                    placeholder="Your Phone (+91XXXXXXXXXX)"
                     required="required"
                     data-validation-required-message="Please enter your phone"
                   />
                   <p className="help-block text-danger"></p>
                 </div>
-                {/* <div className="control-group">
-                  <input
-                    ref={passwordRef}
-                    type="password"
-                    className="form-control"
-                    id="pass"
-                    placeholder="Your Password"
-                    required="required"
-                    data-validation-required-message="Please enter your Password"
-                  />
-                  <p className="help-block text-danger"></p>
-                </div>
-                <div className="control-group">
-                  <input
-                    ref={cpasswordRef}
-                    type="password"
-                    className="form-control"
-                    id="cpass"
-                    placeholder="Your Confirm Password"
-                    required="required"
-                    data-validation-required-message="Please enter your confirm Password"
-                  />
-
-                  <p className="help-block text-danger"></p>
-                </div> */}
-
                 <div>
                   <button
                     className="btn btn-primary py-2 px-4"
@@ -143,6 +123,7 @@ const Register = () => {
                   </button>
                 </div>
               </form>
+              <ToastContainer position="top-center" autoClose={3000} />
             </div>
           </div>
         </div>

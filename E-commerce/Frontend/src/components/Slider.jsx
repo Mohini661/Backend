@@ -1,6 +1,7 @@
 import React from "react";
 import c1 from "../assets/img/carousel-1.jpg";
 import c2 from "../assets/img/carousel-2.jpg";
+import { Link } from "react-router-dom";
 const Slider = () => {
   return (
     <div id="header-carousel" className="carousel slide" data-ride="carousel">
@@ -20,9 +21,9 @@ const Slider = () => {
               <h3 className="display-4 text-white font-weight-semi-bold mb-4">
                 Fashionable Dress
               </h3>
-              <a href="" className="btn btn-light py-2 px-3">
+              <Link to="" className="btn btn-light py-2 px-3">
                 Shop Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -41,31 +42,31 @@ const Slider = () => {
               <h3 className="display-4 text-white font-weight-semi-bold mb-4">
                 Reasonable Price
               </h3>
-              <a href="" className="btn btn-light py-2 px-3">
+              <Link to="" className="btn btn-light py-2 px-3">
                 Shop Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
-      <a
+      <Link
         className="carousel-control-prev"
-        href="#header-carousel"
+        to="#header-carousel"
         data-slide="prev"
       >
         <div className="btn btn-dark" style={{ width: "45px", height: "45px" }}>
           <span className="carousel-control-prev-icon mb-n2"></span>
         </div>
-      </a>
-      <a
+      </Link>
+      <Link
         className="carousel-control-next"
-        href="#header-carousel"
+        to="#header-carousel"
         data-slide="next"
       >
         <div className="btn btn-dark" style={{ width: "45px", height: "45px" }}>
           <span className="carousel-control-next-icon mb-n2"></span>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

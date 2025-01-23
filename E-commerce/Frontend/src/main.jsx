@@ -19,7 +19,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Cart from "./pages/Cart.jsx";
 import SetPassword from "./components/SetPassword.jsx";
 import SuccessPassMsg from "./components/SuccessPassMsg.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AdminDashboard from "./admin/AdminDashboard.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import UpdatePassword from "./components/updatePassword.jsx";
 
@@ -52,13 +52,14 @@ const router = createBrowserRouter([
         path: "/dashboard/user",
         element: <Dashboard />,
       },
-      {
-        path: "/dashboard/admin",
-        element: <AdminDashboard />,
-      },
+
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/dashboard/admin",
+        element: <AdminDashboard />,
       },
     ],
   },

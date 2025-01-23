@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 // import { ProductListContext } from "../context/ProductContext";
 import Product from "../components/Product";
 import { Context } from "../context/Context";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const { productLists, getProducts } = useContext(Context);
@@ -21,7 +22,7 @@ const Shop = () => {
           </h1>
           <div className="d-inline-flex">
             <p className="m-0">
-              <a href="">Home</a>
+              <Link to="">Home</Link>
             </p>
             <p className="m-0 px-2">-</p>
             <p className="m-0">Shop</p>
@@ -293,15 +294,15 @@ const Shop = () => {
                       className="dropdown-menu dropdown-menu-right"
                       aria-labelledby="triggerId"
                     >
-                      <a className="dropdown-item" href="#">
+                      <Link className="dropdown-item" to="#">
                         Latest
-                      </a>
-                      <a className="dropdown-item" href="#">
+                      </Link>
+                      <Link className="dropdown-item" to="#">
                         Popularity
-                      </a>
-                      <a className="dropdown-item" href="#">
+                      </Link>
+                      <Link className="dropdown-item" to="#">
                         Best Rating
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -329,13 +330,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -358,13 +359,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -387,13 +388,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -416,13 +417,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -445,13 +446,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -474,13 +475,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -503,13 +504,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -532,13 +533,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -561,13 +562,13 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-eye text-primary mr-1"></i>View Detail
-                    </a>
-                    <a href="" className="btn btn-sm text-dark p-0">
+                    </Link>
+                    <Link to="" className="btn btn-sm text-dark p-0">
                       <i className="fas fa-shopping-cart text-primary mr-1"></i>Add
                       To Cart
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div> */}
@@ -575,31 +576,31 @@ const Shop = () => {
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center mb-3">
                     <li className="page-item disabled">
-                      <a className="page-link" href="#" aria-label="Previous">
+                      <Link className="page-link" to="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span className="sr-only">Previous</span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="page-item active">
-                      <a className="page-link" href="#">
+                      <Link className="page-link" to="#">
                         1
-                      </a>
+                      </Link>
                     </li>
                     <li className="page-item">
-                      <a className="page-link" href="#">
+                      <Link className="page-link" to="#">
                         2
-                      </a>
+                      </Link>
                     </li>
                     <li className="page-item">
-                      <a className="page-link" href="#">
+                      <Link className="page-link" to="#">
                         3
-                      </a>
+                      </Link>
                     </li>
                     <li className="page-item">
-                      <a className="page-link" href="#" aria-label="Next">
+                      <Link className="page-link" to="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span className="sr-only">Next</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>

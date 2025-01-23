@@ -1,6 +1,7 @@
 import React from "react";
 import offer1 from "../assets/img/offer-1.png";
 import offer2 from "../assets/img/offer-2.png";
+import { Link } from "react-router-dom";
 
 const Offer = () => {
   return (
@@ -14,9 +15,9 @@ const Offer = () => {
                 20% off the all order
               </h5>
               <h1 className="mb-4 font-weight-semi-bold">Spring Collection</h1>
-              <a href="" className="btn btn-outline-primary py-md-2 px-md-3">
+              <Link to="" className="btn btn-outline-primary py-md-2 px-md-3">
                 Shop Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -28,9 +29,9 @@ const Offer = () => {
                 20% off the all order
               </h5>
               <h1 className="mb-4 font-weight-semi-bold">Winter Collection</h1>
-              <a href="" className="btn btn-outline-primary py-md-2 px-md-3">
+              <Link to="" className="btn btn-outline-primary py-md-2 px-md-3">
                 Shop Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>

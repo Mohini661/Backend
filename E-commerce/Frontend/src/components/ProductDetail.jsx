@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 // import { ProductListContext } from "../context/ProductContext";
 import { Context } from "../context/Context";
 
@@ -40,7 +40,7 @@ const ProductDetail = () => {
           </h1>
           <div className="d-inline-flex">
             <p className="m-0">
-              <a href="">Home</a>
+              <Link to="">Home</Link>
             </p>
             <p className="m-0 px-2">-</p>
             <p className="m-0">Shop Detail</p>
@@ -62,20 +62,20 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
-              <a
+              <Link
                 className="carousel-control-prev"
-                href="#product-carousel"
+                to="#product-carousel"
                 data-slide="prev"
               >
                 <i className="fa fa-2x fa-angle-left text-dark"></i>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="carousel-control-next"
-                href="#product-carousel"
+                to="#product-carousel"
                 data-slide="next"
               >
                 <i className="fa fa-2x fa-angle-right text-dark"></i>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -253,18 +253,18 @@ const ProductDetail = () => {
                 Share on:
               </p>
               <div className="d-inline-flex">
-                <a className="text-dark px-2" href="">
+                <Link className="text-dark px-2" to="">
                   <i className="fab fa-facebook-f"></i>
-                </a>
-                <a className="text-dark px-2" href="">
+                </Link>
+                <Link className="text-dark px-2" to="">
                   <i className="fab fa-twitter"></i>
-                </a>
-                <a className="text-dark px-2" href="">
+                </Link>
+                <Link className="text-dark px-2" to="">
                   <i className="fab fa-linkedin-in"></i>
-                </a>
-                <a className="text-dark px-2" href="">
+                </Link>
+                <Link className="text-dark px-2" to="">
                   <i className="fab fa-pinterest"></i>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -272,27 +272,27 @@ const ProductDetail = () => {
         <div className="row px-xl-5">
           <div className="col">
             <div className="nav nav-tabs justify-content-center border-secondary mb-4">
-              <a
+              <Link
                 className="nav-item nav-link active"
                 data-toggle="tab"
-                href="#tab-pane-1"
+                to="#tab-pane-1"
               >
                 Description
-              </a>
-              <a
+              </Link>
+              <Link
                 className="nav-item nav-link"
                 data-toggle="tab"
-                href="#tab-pane-2"
+                to="#tab-pane-2"
               >
                 Information
-              </a>
-              <a
+              </Link>
+              <Link
                 className="nav-item nav-link"
                 data-toggle="tab"
-                href="#tab-pane-3"
+                to="#tab-pane-3"
               >
                 Reviews ({currentProduct?.reviews?.length})
-              </a>
+              </Link>
             </div>
             <div className="tab-content">
               <div className="tab-pane fade show active" id="tab-pane-1">
@@ -400,7 +400,7 @@ const ProductDetail = () => {
                     })}
                   </div>
                   <div className="col-md-6">
-                    <h4 className="mb-4">Leave a review</h4>
+                    <h4 className="mb-4">Leave Link review</h4>
                     <small>
                       Your email address will not be published. Required fields
                       are marked *

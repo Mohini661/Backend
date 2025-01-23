@@ -7,6 +7,7 @@ import p5 from "../assets/img/product-5.jpg";
 import p6 from "../assets/img/product-6.jpg";
 import p7 from "../assets/img/product-7.jpg";
 import p8 from "../assets/img/product-8.jpg";
+import { Link } from "react-router-dom";
 
 const NewArrived = () => {
   return (
@@ -32,13 +33,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -57,13 +58,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -82,13 +83,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -107,13 +108,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -132,13 +133,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -157,13 +158,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -182,13 +183,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -207,13 +208,13 @@ const NewArrived = () => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <a href="" className="btn btn-sm text-dark p-0">
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-eye text-primary mr-1"></i>View Detail
-              </a>
-              <a href="" className="btn btn-sm text-dark p-0">
+              </Link>
+              <Link to="" className="btn btn-sm text-dark p-0">
                 <i className="fas fa-shopping-cart text-primary mr-1"></i>Add To
                 Cart
-              </a>
+              </Link>
             </div>
           </div>
         </div>

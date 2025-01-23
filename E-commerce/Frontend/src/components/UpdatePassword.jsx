@@ -85,7 +85,7 @@ const UpdatePassword = () => {
                   ></i>
                 </div>
 
-                <div className="control-group position-relative mb-3">
+                {/* <div className="control-group position-relative mb-3">
                   <input
                     type={showConfirmNewPassword ? "text" : "password"}
                     className="form-control"
@@ -107,7 +107,7 @@ const UpdatePassword = () => {
                     }}
                     onClick={() => setShowConfirmNewPassword((prev) => !prev)}
                   ></i>
-                </div>
+                </div> */}
 
                 <div>
                   <button
