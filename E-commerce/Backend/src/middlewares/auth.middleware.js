@@ -27,3 +27,22 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     throw new ApiError(401, error?.message || "Invalid Access Token");
   }
 });
+
+export const isAdmin = asyncHandler(async (req, _, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (req.user.role !== "admin") {
+      return res  
+        .status(403)
+        .json(new ApiError(403, "Admin access is required"));
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(
+      403,
+      error.message || "Error occurred in Admin middlewar"
+    );
+  }
+});

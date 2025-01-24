@@ -20,6 +20,7 @@ import { Context } from "../context/Context";
 
 const Products = () => {
   const { productLists, getProducts } = useContext(Context);
+
   // const { products, setProducts, getProducts } = useContext(ProductListContext);
   useEffect(() => {
     getProducts();

@@ -84,13 +84,10 @@ const ContextProvider = ({ children }) => {
         }
       } else {
         // console.log("Login Failed", userData.data.message);
-        toast.error(
-          userData.message || "Login Failed",
-          {
-            position: "top-center",
-            autoClose: 3000,
-          }
-        );
+        toast.error(userData.message || "Login Failed", {
+          position: "top-center",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.log("Error while login", error.message);
