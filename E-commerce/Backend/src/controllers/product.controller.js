@@ -62,7 +62,18 @@ const createProduct = asyncHandler(async (req, res) => {
     if (!mainImage) {
       throw new ApiError(400, "mainImage is required");
     }
-    console.log("name", name, description, "url  ", mainImage.url);
+
+    // console.log(req.user?._id);
+    // console.log("Creating Product with:", {
+    //   name,
+    //   description,
+    //   price,
+    //   stock,
+    //   category,
+    //   mainImage: mainImage.url,
+    //   createdBy: req.user?._id,
+    //   subImages: subImages,
+    // });
 
     const product = await Product.create({
       name,
@@ -75,7 +86,7 @@ const createProduct = asyncHandler(async (req, res) => {
       subImages: subImages || "",
     });
 
-    console.log(product);
+    console.log("Product create: ", product);
 
     return res
       .status(201)
@@ -180,7 +191,6 @@ const updateProduct = asyncHandler(async (req, res) => {
           .json(new ApiError(500, "Failed to upload sub images"));
       }
     }
-    console.log(name);
 
     const updatedProduct = await Product.findByIdAndUpdate(
       id,

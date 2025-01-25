@@ -1,32 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-// import { ProductListContext } from "../context/ProductContext";
 import { Context } from "../context/Context";
+import { ProductContext } from "../context/ProductContext";
+import { CartContext } from "../context/CartContext";
 
 const ProductDetail = () => {
-  // const params = useParams();
-  const location = useLocation();
-  const id = location.state;
-  const { productLists } = useContext(Context);
-  const [currentProduct, setCurrentProduct] = useState({
-    images: [],
-    reviews: [],
-  });
+  const { id } = useParams();
+  // console.log(id);
+  const { currentProduct, getSingleProduct } = useContext(ProductContext);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch(`https://dummyjson.com/products/${id}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setCurrentProduct(result);
-      });
+    getSingleProduct(id);
   }, []);
-  // const currentProduct = productLists.find((item) => {
-  //   if (item.id == id) {
-  //     return item
-
-  //   }
-  // });
-  // console.log(currentProduct);
 
   return (
     <>
@@ -56,11 +42,13 @@ const ProductDetail = () => {
               data-ride="carousel"
             >
               <div className="carousel-inner border">
-                {currentProduct.images.map((ele) => (
-                  <div className="carousel-item active">
-                    <img className="w-100 h-100" src={ele} alt="Image" />
-                  </div>
-                ))}
+                <div className="carousel-item active">
+                  <img
+                    className="w-100 h-100"
+                    src={currentProduct?.data?.mainImage}
+                    alt="Image"
+                  />
+                </div>
               </div>
               <Link
                 className="carousel-control-prev"
@@ -80,7 +68,7 @@ const ProductDetail = () => {
           </div>
 
           <div className="col-lg-7 pb-5">
-            <h3 className="font-weight-semi-bold">{currentProduct?.title}</h3>
+            <h3 className="font-weight-semi-bold">{currentProduct?.name}</h3>
             <div className="d-flex mb-3">
               <div className="text-primary mr-2">
                 <small className="fas fa-star"></small>
@@ -94,15 +82,9 @@ const ProductDetail = () => {
               </small>
             </div>
             <h3 className="font-weight-semi-bold mb-4">
-              {currentProduct?.price}
+              {currentProduct?.data?.price}
             </h3>
-            <p className="mb-4">
-              Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat
-              diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem
-              magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore
-              stet, est lorem sit diam sea et justo, amet at lorem et eirmod
-              ipsum diam et rebum kasd rebum.
-            </p>
+            <p className="mb-4">{currentProduct?.data?.description}</p>
             <div className="d-flex mb-3">
               <p className="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
               <form>
@@ -236,7 +218,7 @@ const ProductDetail = () => {
                 <input
                   type="text"
                   className="form-control bg-secondary text-center"
-                  value="1"
+                  defaultValue="1"
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-primary btn-plus">
@@ -244,7 +226,10 @@ const ProductDetail = () => {
                   </button>
                 </div>
               </div>
-              <button className="btn btn-primary px-3">
+              <button
+                className="btn btn-primary px-3"
+                onClick={() => addToCart(product?._id)}
+              >
                 <i className="fa fa-shopping-cart mr-1"></i> Add To Cart
               </button>
             </div>
@@ -297,7 +282,7 @@ const ProductDetail = () => {
             <div className="tab-content">
               <div className="tab-pane fade show active" id="tab-pane-1">
                 <h4 className="mb-3">Product Description</h4>
-                <p>{currentProduct?.description}</p>
+                <p>{currentProduct?.data?.description}</p>
                 <p>
                   Dolore magna est eirmod sanctus dolor, amet diam et eirmod et
                   ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem
@@ -368,7 +353,7 @@ const ProductDetail = () => {
                   <div className="col-md-6">
                     <h4 className="mb-4">
                       {currentProduct?.reviews?.length} review for "
-                      {currentProduct?.title}"
+                      {currentProduct?.data?.name}"
                     </h4>
                     {currentProduct?.reviews?.map((ele) => {
                       return (
@@ -440,7 +425,7 @@ const ProductDetail = () => {
                       <div className="form-group mb-0">
                         <input
                           type="submit"
-                          value="Leave Your Review"
+                          defaultValue="Leave Your Review"
                           className="btn btn-primary px-3"
                         />
                       </div>

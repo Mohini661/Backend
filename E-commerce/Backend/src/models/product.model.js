@@ -22,12 +22,12 @@ const productSchema = new Schema(
       required: true,
       min: 0,
     },
-    // category: { type: Schema.Types.ObjectId, ref: "Category", required: true }, // reference by category id
+    // category: { type: Schema.Types.ObjectId, ref: "Category", required: false }, // reference by category id
     category: { type: String, required: true },
 
     mainImage: {
       type: String,
-      required: false,
+      required: true,
     },
     subImages: {
       type: [String], // Array of strings
@@ -39,7 +39,7 @@ const productSchema = new Schema(
       min: 0,
       max: 5,
     },
-    numReviews: {
+    Reviews: {
       type: Number,
       default: 0,
     },

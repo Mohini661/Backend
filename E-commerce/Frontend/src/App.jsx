@@ -7,16 +7,19 @@ import { Outlet } from "react-router-dom";
 // import ProductListContextProvider from "./context/ProductContext";
 import ContextProvider from "./context/Context.jsx";
 import CartContextProvider from "./context/CartContext.jsx";
+import ProductContextProvider from "./context/ProductContext.jsx";
 
 function App() {
   return (
     <>
       <ContextProvider>
         <CartContextProvider>
-          <Header />
-          {/* <Navbar /> */}
-          <Outlet></Outlet>
-          <Footer />
+          <ProductContextProvider>
+            <Header />
+            {/* <Navbar /> */}
+            <Outlet></Outlet>
+            <Footer />
+          </ProductContextProvider>
         </CartContextProvider>
       </ContextProvider>
     </>
