@@ -1,24 +1,65 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext.jsx";
-import { Context } from "../context/Context.jsx";
+import { ProductContext } from "../context/ProductContext.jsx";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51QmCmlHgi7wVoxxXIGzoT2VxV8bUTFur039KUXIjt8zm6ZTYQFrXTjxAbci9U4S6vUoCqvoRaljGNqinLH4pIlYs00rKIVLGWI"
+);
 
 const Cart = () => {
-  const { cart } = useContext(CartContext);
-  const { productLists } = useContext(Context);
+  const {
+    getCartProducts,
+    cartProducts,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useContext(CartContext);
+  // const { products } = useContext(ProductContext);
+  const [loading, setLoading] = useState(false);
 
-  let cartProduct = [];
-  let totalPrice = 0;
+  const subtotal = cartProducts?.data?.items?.reduce(
+    (acc, product) => acc + product.productId.price * product.quantity,
+    0
+  );
+  const shipping = 10; // Static shipping cost
+  const total = subtotal + shipping;
 
-  if (cart.length !== 0) {
-    cartProduct = productLists.filter((product) => {
-      if (cart.indexOf(product.id) === -1) return false;
-      else {
-        totalPrice += product.price;
-        return true;
+  localStorage.setItem("cartData", JSON.stringify({ total, cartProducts }));
+
+  const handleCheckOut = async () => {
+    // Get Stripe instance
+    const stripe = await stripePromise;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:5002/api/v1/payment/stripe-checkout-session",
+        {
+          totalAmount: Math.round(total * 100), // Pass the total amount from your cart (e.g., 89.95)
+        }
+      );
+      if (response.data.url) {
+        window.location.href = response.data.url; // Redirect to Stripe Checkout
+      } else {
+        alert("Failed to create checkout session.");
       }
-    });
-  }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      toast.error("Failed to redirect to Stripe Checkout. Please try again.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getCartProducts();
+  }, []);
+
   return (
     <>
       <div className="container-fluid bg-secondary mb-5">
@@ -40,7 +81,7 @@ const Cart = () => {
       </div>
 
       {/* // <!-- Cart Start --> */}
-      {cart.length === 0 ? (
+      {cartProducts?.items?.length === 0 ? (
         <h1 className="text-center fw-bold">Your Cart is Empty !</h1>
       ) : (
         <div className="container-fluid pt-5">
@@ -57,43 +98,65 @@ const Cart = () => {
                   </tr>
                 </thead>
                 <tbody className="align-middle">
-                  {cartProduct.map((product) => {
+                  {cartProducts?.data?.items?.map((product) => {
                     return (
-                      <tr key={product.id}>
+                      <tr key={product.productId._id}>
                         <td className="align-middle">
                           <img
-                            src={product.thumbnail}
+                            src={product?.productId?.mainImage}
                             alt=""
                             style={{ width: "50px" }}
                           />{" "}
-                          {product.title}
+                          {product?.productId?.name}
                         </td>
-                        <td className="align-middle">{product.price}</td>
+                        <td className="align-middle">
+                          {product?.productId?.price}
+                        </td>
                         <td className="align-middle">
                           <div
                             className="input-group quantity mx-auto"
                             style={{ width: "100px" }}
                           >
                             <div className="input-group-btn">
-                              <button className="btn btn-sm btn-primary btn-minus">
+                              <button
+                                className="btn btn-sm btn-primary btn-minus"
+                                onClick={() =>
+                                  decreaseQuantity(product?.productId?._id)
+                                }
+                                disabled={product.quantity <= 1}
+                              >
                                 <i className="fa fa-minus"></i>
                               </button>
                             </div>
-                            <input
+                            <div
                               type="text"
                               className="form-control form-control-sm bg-secondary text-center"
-                              value="1"
-                            />
+                              // value="1"
+                            >
+                              {product.quantity}
+                            </div>
                             <div className="input-group-btn">
-                              <button className="btn btn-sm btn-primary btn-plus">
+                              <button
+                                className="btn btn-sm btn-primary btn-plus"
+                                onClick={() =>
+                                  increaseQuantity(product?.productId?._id)
+                                }
+                              >
                                 <i className="fa fa-plus"></i>
                               </button>
                             </div>
                           </div>
                         </td>
-                        <td className="align-middle"></td>
                         <td className="align-middle">
-                          <button className="btn btn-sm btn-primary">
+                          {product?.productId.price * product.quantity}
+                        </td>
+                        <td className="align-middle">
+                          <button
+                            className="btn btn-sm btn-primary"
+                            onClick={() =>
+                              removeFromCart(product?.productId?._id)
+                            }
+                          >
                             <i className="fa fa-times"></i>
                           </button>
                         </td>
@@ -123,7 +186,10 @@ const Cart = () => {
                 <div className="card-body">
                   <div className="d-flex justify-content-between mb-3 pt-1">
                     <h6 className="font-weight-medium">Subtotal</h6>
-                    <h6 className="font-weight-medium">{totalPrice}</h6>
+                    <h6 className="font-weight-medium">
+                      {Number(subtotal).toFixed(2)}
+                      {/* {cartProducts?.data?.totalPrice} */}
+                    </h6>
                   </div>
                   <div className="d-flex justify-content-between">
                     <h6 className="font-weight-medium">Shipping</h6>
@@ -133,11 +199,16 @@ const Cart = () => {
                 <div className="card-footer border-secondary bg-transparent">
                   <div className="d-flex justify-content-between mt-2">
                     <h5 className="font-weight-bold">Total</h5>
-                    <h5 className="font-weight-bold">$160</h5>
+                    <h5 className="font-weight-bold">{total.toFixed(2)}</h5>
                   </div>
-                  <button className="btn btn-block btn-primary my-3 py-3">
-                    Proceed To Checkout
-                  </button>
+                  <Link
+                    // to="/checkout"
+                    className="btn btn-block btn-primary my-3 py-3"
+                    onClick={handleCheckOut}
+                    disabled={loading}
+                  >
+                    {loading ? "Redirecting..." : "Proceed to Checkout"}
+                  </Link>
                 </div>
               </div>
             </div>

@@ -32,7 +32,7 @@ export const isAdmin = asyncHandler(async (req, _, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (req.user.role !== "admin") {
-      return res  
+      return res
         .status(403)
         .json(new ApiError(403, "Admin access is required"));
     } else {

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
   return (
@@ -6,9 +7,11 @@ const Checkout = () => {
       <div className="container-fluid bg-secondary mb-5">
         <div
           className="d-flex flex-column align-items-center justify-content-center"
-          style="min-height: 300px"
+          style={{ minHeight: "300px" }}
         >
-          <h1 className="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+          <h1 className="font-weight-semi-bold text-uppercase mb-3">
+            Checkout
+          </h1>
           <div className="d-inline-flex">
             <p className="m-0">
               <Link to="/">Home</Link>
@@ -29,11 +32,19 @@ const Checkout = () => {
               <div className="row">
                 <div className="col-md-6 form-group">
                   <label>First Name</label>
-                  <input className="form-control" type="text" placeholder="John" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="John"
+                  />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>Last Name</label>
-                  <input className="form-control" type="text" placeholder="Doe" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Doe"
+                  />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>E-mail</label>
@@ -94,7 +105,11 @@ const Checkout = () => {
                 </div>
                 <div className="col-md-6 form-group">
                   <label>ZIP Code</label>
-                  <input className="form-control" type="text" placeholder="123" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="123"
+                  />
                 </div>
                 <div className="col-md-12 form-group">
                   <div className="custom-control custom-checkbox">
@@ -132,11 +147,19 @@ const Checkout = () => {
               <div className="row">
                 <div className="col-md-6 form-group">
                   <label>First Name</label>
-                  <input className="form-control" type="text" placeholder="John" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="John"
+                  />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>Last Name</label>
-                  <input className="form-control" type="text" placeholder="Doe" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Doe"
+                  />
                 </div>
                 <div className="col-md-6 form-group">
                   <label>E-mail</label>
@@ -197,7 +220,11 @@ const Checkout = () => {
                 </div>
                 <div className="col-md-6 form-group">
                   <label>ZIP Code</label>
-                  <input className="form-control" type="text" placeholder="123" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="123"
+                  />
                 </div>
               </div>
             </div>

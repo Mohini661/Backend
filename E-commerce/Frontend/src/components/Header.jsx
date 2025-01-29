@@ -6,7 +6,7 @@ import { CartContext } from "../context/CartContext";
 
 const Header = () => {
   const role = useContext(Context);
-  const { cart } = useContext(CartContext);
+  const { cartProducts } = useContext(CartContext);
 
   return (
     <>
@@ -85,7 +85,7 @@ const Header = () => {
               <Link to="/cart" className="btn border position-relative ">
                 <i className="fas fa-shopping-cart text-primary ">
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {cart.length}
+                    {cartProducts?.data?.items?.length}
                   </span>
                 </i>
               </Link>

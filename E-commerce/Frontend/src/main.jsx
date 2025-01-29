@@ -22,6 +22,10 @@ import SuccessPassMsg from "./components/SuccessPassMsg.jsx";
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import UpdatePassword from "./components/updatePassword.jsx";
+import Checkout from "./pages/Checkout.jsx";
+import SuccessPayment from "./components/SuccessPayment.jsx";
+import CancelPayment from "./components/CancelPayment.jsx";
+import Invoice from "./components/Invoice.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +65,10 @@ const router = createBrowserRouter([
         path: "/dashboard/admin",
         element: <AdminDashboard />,
       },
+      // {
+      //   path: "/checkout",
+      //   element: <Checkout />,
+      // },
     ],
   },
   {
@@ -70,6 +78,18 @@ const router = createBrowserRouter([
   {
     path: "/success-msg",
     element: <SuccessPassMsg />,
+  },
+  {
+    path: "/success-payment",
+    element: <SuccessPayment />,
+  },
+  {
+    path: "/cancel-payment",
+    element: <CancelPayment />,
+  },
+  {
+    path: "/invoice",
+    element: <Invoice />,
   },
 ]);
 

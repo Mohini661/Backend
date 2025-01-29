@@ -59,6 +59,7 @@ const ContextProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
       const userData = await response.json();
+
       console.log(userData.data);
       if (userData.success && response.ok) {
         localStorage.setItem("token", userData.data.accessToken);
@@ -91,7 +92,10 @@ const ContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("Error while login", error.message);
-      toast.error("");
+      toast.error(userData.message || "Error while login", {
+        position: "top-center",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -115,11 +119,11 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  const getProducts = () => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((p) => setProductLists(p.products));
-  };
+  // const getProducts = () => {
+  //   fetch("https://dummyjson.com/products")
+  //     .then((res) => res.json())
+  //     .then((p) => setProductLists(p.products));
+  // };
   return (
     <Context.Provider
       value={{
@@ -129,8 +133,8 @@ const ContextProvider = ({ children }) => {
         passwordRef,
         cpasswordRef,
         addUser,
-        productLists,
-        getProducts,
+        // productLists,
+        // getProducts,
         isAuthenticated,
         login,
         logout,
