@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext.jsx";
 import { ProductContext } from "../context/ProductContext.jsx";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
-  "pk_test_51QmCmlHgi7wVoxxXIGzoT2VxV8bUTFur039KUXIjt8zm6ZTYQFrXTjxAbci9U4S6vUoCqvoRaljGNqinLH4pIlYs00rKIVLGWI"
+  "pk_test_51QmCmlHgi7wVoxxX6kHPOpVeq4mTOu7fuqm7LdQI0EgdW5QZDKM1bepJ0gVtXINMP4HaDyl2RkMZkGcsFB9czNx200G3lrQC1k"
 );
 
 const Cart = () => {
@@ -19,6 +19,10 @@ const Cart = () => {
   } = useContext(CartContext);
   // const { products } = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const navigate = useNavigate();
 
   const subtotal = cartProducts?.data?.items?.reduce(
     (acc, product) => acc + product.productId.price * product.quantity,
@@ -26,13 +30,11 @@ const Cart = () => {
   );
   const shipping = 10; // Static shipping cost
   const total = subtotal + shipping;
-
   localStorage.setItem("cartData", JSON.stringify({ total, cartProducts }));
 
-  const handleCheckOut = async () => {
+  const handleStripePayment = async () => {
     // Get Stripe instance
     const stripe = await stripePromise;
-
     setLoading(true);
     try {
       const response = await axios.post(
@@ -56,6 +58,73 @@ const Cart = () => {
       setLoading(false);
     }
   };
+
+  const handlePayPalPayment = () => {
+    setLoading(true); // Set loading state to true to show the spinner
+
+    if (!window.paypal) {
+      toast.error("PayPal SDK not loaded. Please try again later.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      setLoading(false); // Set loading state to false if SDK is not loaded
+      return;
+    }
+
+    // Render PayPal button
+    window.paypal
+      .Buttons({
+        createOrder: async () => {
+          // Create the PayPal order with the cart total
+          const response = await fetch(
+            "http://localhost:5002/api/v1/payment/create-order",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ total: total }), // Send the total cart amount
+            }
+          );
+          const data = await response.json();
+          return data.id; // Return the order ID
+        },
+        onApprove: async (data) => {
+          // Capture the order after approval
+          const response = await fetch(
+            `http://localhost:5002/api/v1/payment/capture-order/${data.orderID}`,
+            { method: "POST" }
+          );
+          const details = await response.json();
+
+          if (details.status === "COMPLETED") {
+            // Redirect to the success page (success-payment)
+            // window.location.href = "/success-payment";
+            setShowSuccessModal(true);
+          }
+          // You can handle the details here (e.g., store the transaction)
+          console.log(details);
+          setLoading(false);
+          setShowModal(false);
+        },
+        onCancel: (data) => {
+          window.location.href = "/cancel-payment";
+        },
+        onError: (err) => {
+          window.location.href = "/cancel-payment";
+          setLoading(false);
+          // setShowModal(false);
+        },
+      })
+      .render("#paypal-button-container"); // Render the PayPal button inside the container
+  };
+
+  const handleProceed = () => {
+    if (selectedOption === "Stripe") {
+      handleStripePayment();
+    } else if (selectedOption === "PayPal") {
+      handlePayPalPayment(); // Proceed with PayPal payment flow
+    }
+  };
+
   useEffect(() => {
     getCartProducts();
   }, []);
@@ -204,19 +273,181 @@ const Cart = () => {
                   <Link
                     // to="/checkout"
                     className="btn btn-block btn-primary my-3 py-3"
-                    onClick={handleCheckOut}
-                    disabled={loading}
+                    onClick={() => setShowModal(true)}
                   >
                     {loading ? "Redirecting..." : "Proceed to Checkout"}
                   </Link>
+                  <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 bg-light">
+                    {/* Payment Modal */}
+                    {showModal && (
+                      <div
+                        className="modal fade show"
+                        style={{
+                          display: "block",
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        }}
+                        tabIndex="-1"
+                        role="dialog"
+                      >
+                        <div
+                          className="modal-dialog modal-dialog-centered"
+                          style={{ maxWidth: "500px" }}
+                          role="document"
+                        >
+                          <div className="modal-content shadow-lg border-0">
+                            <div className="modal-header bg-primary text-white">
+                              <h5 className="modal-title fw-bold">
+                                Select Payment Method
+                              </h5>
+                              <button
+                                type="button"
+                                className="btn-close"
+                                aria-label="Close"
+                                onClick={() => setShowModal(false)}
+                              ></button>
+                            </div>
+                            <div className="modal-body">
+                              <p className="text-center mb-4 text-muted">
+                                Choose your preferred payment option
+                              </p>
+                              <div className="list-group">
+                                <label
+                                  className="list-group-item d-flex align-items-center border-0 p-3 rounded shadow-sm mb-3"
+                                  style={{
+                                    backgroundColor: "#f9f9f9",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s ease",
+                                  }}
+                                >
+                                  <input
+                                    className="form-check-input me-3"
+                                    type="radio"
+                                    name="paymentOption"
+                                    value="PayPal"
+                                    onChange={(e) =>
+                                      setSelectedOption(e.target.value)
+                                    }
+                                  />
+                                  <div id="paypal-button-container">
+                                    <h6 className="mb-1">PayPal</h6>
+                                    <small className="text-muted">
+                                      Pay securely with your PayPal account.
+                                    </small>
+                                  </div>
+                                </label>
+                                <label
+                                  className="list-group-item d-flex align-items-center border-0 p-3 rounded shadow-sm mb-3"
+                                  style={{
+                                    backgroundColor: "#f9f9f9",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s ease",
+                                  }}
+                                >
+                                  <input
+                                    className="form-check-input me-3"
+                                    type="radio"
+                                    name="paymentOption"
+                                    value="Stripe"
+                                    onChange={(e) =>
+                                      setSelectedOption(e.target.value)
+                                    }
+                                  />
+                                  <div>
+                                    <h6 className="mb-1">Stripe</h6>
+                                    <small className="text-muted">
+                                      Use your credit or debit card via Stripe.
+                                    </small>
+                                  </div>
+                                </label>
+                              </div>
+                            </div>
+                            <div className="modal-footer d-flex justify-content-between">
+                              <button
+                                className="btn btn-outline-secondary px-4"
+                                onClick={() => setShowModal(false)}
+                                disabled={loading}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                className="btn btn-primary px-4"
+                                onClick={handleProceed}
+                                disabled={!selectedOption || loading}
+                              >
+                                {loading ? (
+                                  <span
+                                    className="spinner-border spinner-border-sm me-2"
+                                    role="status"
+                                    aria-hidden="true"
+                                  ></span>
+                                ) : (
+                                  "Proceed"
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      {/* <!-- Cart End --> */}
+      {showSuccessModal && (
+        <div
+          className="modal fade show "
+          style={{
+            display: "block",
+            backgroundColor: "rgba(0,0,0,0.7)",
+          }}
+          tabIndex="-1"
+          role="dialog"
+        >
+          <div
+            className="modal-dialog modal-dialog-centered"
+            style={{ maxWidth: "500px" }}
+            role="document"
+          >
+            <div className="modal-content shadow-lg border-0">
+              <div className="modal-header bg-success text-white">
+                <h5 className="modal-title fw-bold alert-heading">
+                  Payment Successful
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => setShowSuccessModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body text-center">
+                <i
+                  className="fa fa-check-circle text-success mb-4"
+                  style={{ fontSize: "50px" }}
+                ></i>
+                <p className="mb-4 text-muted">
+                  Your payment was processed successfully. Thank you for your
+                  order!
+                </p>
+                <Link
+                  className="btn btn-success px-4 alert-link"
+                  onClick={() => {
+                    setShowSuccessModal(false);
+                    // Optional: Navigate to home or clear cart
+                    // window.location.href = "/";
+                    navigate("/invoice");
+                  }}
+                >
+                  Show Invoice
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

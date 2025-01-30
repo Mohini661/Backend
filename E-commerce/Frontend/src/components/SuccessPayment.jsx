@@ -1,23 +1,58 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SuccessPayment = () => {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <div
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
+      className="modal fade show "
+      style={{
+        display: "block",
+        backgroundColor: "rgba(0,0,0,0.7)",
+      }}
+      tabIndex="-1"
+      role="dialog"
     >
       <div
-        className="alert alert-success alert-dismissible fade show p-5"
-        role="alert"
+        className="modal-dialog modal-dialog-centered"
+        style={{ maxWidth: "500px" }}
+        role="document"
       >
-        <h2 className="alert-heading">Payment Successful!</h2>
-        <p>Thank you for your purchase.</p>
-        <p>
-          <Link to={"/invoice"} className="alert-link">
-            Download your receipt
-          </Link>{" "}
-        </p>
+        <div className="modal-content shadow-lg border-0">
+          <div className="modal-header bg-success text-white">
+            <h5 className="modal-title fw-bold alert-heading">
+              Payment Successful
+            </h5>
+            {/* <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={() => setShowSuccessModal(false)}
+            ></button> */}
+          </div>
+          <div className="modal-body text-center">
+            <i
+              className="fa fa-check-circle text-success mb-4"
+              style={{ fontSize: "50px" }}
+            ></i>
+            <p className="mb-4 text-muted">
+              Your payment was processed successfully. Thank you for your order!
+            </p>
+            <Link
+              className="btn btn-success px-4 alert-link"
+              onClick={() => {
+                setShowSuccessModal(false);
+                // Optional: Navigate to home or clear cart
+                // window.location.href = "/";
+                navigate("/invoice");
+              }}
+            >
+              Show Invoice
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

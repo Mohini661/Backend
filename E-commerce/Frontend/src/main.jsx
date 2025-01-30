@@ -4,7 +4,6 @@ import App from "./App.jsx";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/css/style.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -65,10 +64,6 @@ const router = createBrowserRouter([
         path: "/dashboard/admin",
         element: <AdminDashboard />,
       },
-      // {
-      //   path: "/checkout",
-      //   element: <Checkout />,
-      // },
     ],
   },
   {

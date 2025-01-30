@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import { useNavigate } from "react-router-dom";
 
 const Invoice = () => {
   const [cartData, setCartData] = useState(null);
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
-    
     // Get the cart data from localStorage
-
     const storedCartData = localStorage.getItem("cartData");
     if (storedCartData) {
       setCartData(JSON.parse(storedCartData)); // Parse and set the cart data
@@ -31,7 +30,6 @@ const Invoice = () => {
   // Function to generate PDF
   const generatePDF = () => {
     const doc = new jsPDF();
-
     // Title
     doc.setFontSize(18);
     doc.text("Invoice Details", 105, 20, null, null, "center");
@@ -66,6 +64,8 @@ const Invoice = () => {
 
     // Save PDF
     doc.save("invoice.pdf");
+
+    navigate("/");
   };
 
   return (
