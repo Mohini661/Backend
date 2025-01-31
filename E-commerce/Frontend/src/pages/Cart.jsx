@@ -13,9 +13,8 @@ const Cart = () => {
   const {
     getCartProducts,
     cartProducts,
-    removeFromCart,
-    increaseQuantity,
-    decreaseQuantity,
+    removeFromCart,    
+    modifyQuantity,
   } = useContext(CartContext);
   // const { products } = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
@@ -76,24 +75,22 @@ const Cart = () => {
       .Buttons({
         createOrder: async () => {
           // Create the PayPal order with the cart total
-          const response = await fetch(
+          const response = await axios.post(
             "http://localhost:5002/api/v1/payment/create-order",
+            { total: total }, // Send the total cart amount
             {
-              method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ total: total }), // Send the total cart amount
             }
           );
-          const data = await response.json();
+          const data = await response.data;
           return data.id; // Return the order ID
         },
         onApprove: async (data) => {
           // Capture the order after approval
-          const response = await fetch(
-            `http://localhost:5002/api/v1/payment/capture-order/${data.orderID}`,
-            { method: "POST" }
+          const response = await axios.post(
+            `http://localhost:5002/api/v1/payment/capture-order/${data.orderID}`
           );
-          const details = await response.json();
+          const details = await response.data;
 
           if (details.status === "COMPLETED") {
             // Redirect to the success page (success-payment)
@@ -190,7 +187,11 @@ const Cart = () => {
                               <button
                                 className="btn btn-sm btn-primary btn-minus"
                                 onClick={() =>
-                                  decreaseQuantity(product?.productId?._id)
+                                  // decreaseQuantity(product?.productId?._id)
+                                  modifyQuantity(
+                                    product.productId?._id,
+                                    "decrease"
+                                  )
                                 }
                                 disabled={product.quantity <= 1}
                               >
@@ -208,7 +209,11 @@ const Cart = () => {
                               <button
                                 className="btn btn-sm btn-primary btn-plus"
                                 onClick={() =>
-                                  increaseQuantity(product?.productId?._id)
+                                  // increaseQuantity(product?.productId)
+                                  modifyQuantity(
+                                    product.productId._id,
+                                    "increase"
+                                  )
                                 }
                               >
                                 <i className="fa fa-plus"></i>

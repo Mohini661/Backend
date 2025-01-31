@@ -61,82 +61,6 @@ const addToCart = asyncHandler(async (req, res) => {
   }
 });
 
-// Increase quantity of product in cart
-const increaseQuantity = asyncHandler(async (req, res) => {
-  const { productId } = req.params;
-  const userId = req.user?._id;
-  try {
-    const cart = await Cart.findOne({ userId });
-
-    if (!cart) {
-      return res.status(404).json(new ApiError(404, "Cart not found"));
-    }
-
-    const itemIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId
-    );
-
-    if (itemIndex === -1) {
-      return res
-        .status(404)
-        .json(new ApiError(404, "Product not found in cart"));
-    }
-
-    cart.items[itemIndex].quantity += 1; // Increase quantity by 1
-    cart.totalPrice = await calculateTotalPrice(cart.items); // Recalculate total price
-
-    await cart.save();
-    return res
-      .status(200)
-      .json(new ApiResponse(200, cart, "Quantity increased"));
-  } catch (error) {
-    console.error("Error while increasing quantity", error.message);
-    return res
-      .status(500)
-      .json(new ApiError(500, "Error while increasing quantity"));
-  }
-});
-const decreaseQuantity = asyncHandler(async (req, res) => {
-  const { productId } = req.params;
-  const userId = req.user?._id;
-
-  try {
-    const cart = await Cart.findOne({ userId });
-
-    if (!cart) {
-      return res.status(404).json(new ApiError(404, "Cart not found"));
-    }
-
-    const itemIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId
-    );
-
-    if (itemIndex === -1) {
-      return res
-        .status(404)
-        .json(new ApiError(404, "Product not found in cart"));
-    }
-
-    if (cart.items[itemIndex].quantity > 1) {
-      cart.items[itemIndex].quantity -= 1; // Decrease quantity by 1
-      cart.totalPrice = await calculateTotalPrice(cart.items); // Recalculate total price
-      await cart.save();
-      return res
-        .status(200)
-        .json(new ApiResponse(200, cart, "Quantity decreased"));
-    }
-
-    return res
-      .status(400)
-      .json(new ApiError(400, "Quantity cannot be less than 1"));
-  } catch (error) {
-    console.error("Error while decreasing quantity", error.message);
-    return res
-      .status(500)
-      .json(new ApiError(500, "Error while decreasing quantity"));
-  }
-});
-
 const removeFromCart = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const userId = req.user?._id;
@@ -183,7 +107,6 @@ const removeFromCart = asyncHandler(async (req, res) => {
   }
 });
 
-//get cart by user id
 const getCartById = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
 
@@ -206,10 +129,56 @@ const getCartById = asyncHandler(async (req, res) => {
   }
 });
 
-export {
-  addToCart,
-  removeFromCart,
-  getCartById,
-  increaseQuantity,
-  decreaseQuantity,
-};
+const modifyQuantity = asyncHandler(async (req, res) => {
+  const { productId, action } = req.body;
+  const userId = req.user?._id;
+
+  if (!["increase", "decrease"].includes(action)) {
+    return res.status(400).json(new ApiError(400, "Invalid action"));
+  }
+
+  try {
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json(new ApiError(404, "Cart not found"));
+    }
+
+    const itemIndex = cart.items.findIndex(
+      (item) => item.productId.toString() === productId
+    );
+
+    if (itemIndex === -1) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "Product not found in cart"));
+    }
+
+    // Modify quantity based on the action
+    if (action === "increase") {
+      cart.items[itemIndex].quantity += 1;
+    } else if (action === "decrease" && cart.items[itemIndex].quantity > 1) {
+      cart.items[itemIndex].quantity -= 1;
+    } else {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Quantity cannot be less than 1"));
+    }
+
+    cart.totalPrice = await calculateTotalPrice(cart.items);
+
+    // Save the cart
+    await cart.save();
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, cart, `Quantity ${action}d`));
+  } catch (error) {
+    console.error("Error while modifying quantity", error.message);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Error while modifying quantity"));
+  }
+});
+
+export { addToCart, removeFromCart, getCartById, modifyQuantity };

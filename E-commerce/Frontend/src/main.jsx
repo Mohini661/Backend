@@ -86,6 +86,10 @@ const router = createBrowserRouter([
     path: "/invoice",
     element: <Invoice />,
   },
+  {
+    path: "/order",
+    element: <Checkout />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

@@ -240,14 +240,7 @@ const Checkout = () => {
                   <p>Colorful Stylish Shirt 1</p>
                   <p>$150</p>
                 </div>
-                <div className="d-flex justify-content-between">
-                  <p>Colorful Stylish Shirt 2</p>
-                  <p>$150</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p>Colorful Stylish Shirt 3</p>
-                  <p>$150</p>
-                </div>
+
                 <hr className="mt-0" />
                 <div className="d-flex justify-content-between mb-3 pt-1">
                   <h6 className="font-weight-medium">Subtotal</h6>
@@ -292,7 +285,7 @@ const Checkout = () => {
                       id="directcheck"
                     />
                     <label className="custom-control-label" for="directcheck">
-                      Direct Check
+                      Stripe
                     </label>
                   </div>
                 </div>

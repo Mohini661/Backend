@@ -61,7 +61,7 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (pId, quantity ) => {
+  const addToCart = async (pId, quantity) => {
     try {
       console.log("pId, quantity", pId);
       const token = localStorage.getItem("token");
@@ -106,105 +106,33 @@ const CartContextProvider = ({ children }) => {
       console.log("Error while adding products", error.message);
     }
   };
+  const modifyQuantity = async (productId, action) => {
+    console.log("Modifying quantity for product:", productId);
+    const token = localStorage.getItem("token");
 
-  const increaseQuantity = async (productId) => {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      toast.error('Please log in to update cart.', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
-      return;
-    }
-  
     try {
       const response = await axios.patch(
-        `http://localhost:5002/api/v1/cart/increase/${productId}`,
-        {},
+        "http://localhost:5002/api/v1/cart/modify-quantity",
+        {
+          productId,
+          action, // action can be "increase" or "decrease"
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      toast.success('Quantity increased successfully', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+      console.log(response.data);
+
+      if (response.data.success) {
+        setCartProducts(response.data);
+      }
+      getCartProducts();
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 'Failed to increase quantity',
-        {
-          position: 'top-center',
-          autoClose: 3000,
-        }
-      );
+      console.error("Error modifying quantity", error);
     }
   };
-
-  // Decrease quantity of product in cart
-const decreaseQuantity = async (productId) => {
-  const token = localStorage.getItem('token');
-  
-  if (!token) {
-    toast.error('Please log in to update cart.', {
-      position: 'top-center',
-      autoClose: 3000,
-    });
-    return;
-  }
-
-  try {
-    const response = await axios.patch(
-      `http://localhost:5002/api/v1/cart/decrease/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    toast.success('Quantity decreased successfully', {
-      position: 'top-center',
-      autoClose: 3000,
-    });
-  } catch (error) {
-    toast.error(
-      error.response?.data?.message || 'Failed to decrease quantity',
-      {
-        position: 'top-center',
-        autoClose: 3000,
-      }
-    );
-  }
-};
-
-  
-
-  // const handleIncrease = async (productId) => {
-  //   setCartProducts((prev) => {
-  //     const updatedItems = prev.data.items.map((item) => {
-  //       if (item.productId._id === productId) {
-  //         return { ...item, quantity: item.quantity + 1 };
-  //       }
-  //       return item;
-  //     });
-  //     return { ...prev, data: { ...prev.data, items: updatedItems } };
-  //   });
-  // };
-
-  // const handleDecrease = async (productId) => {
-  //   setCartProducts((prev) => {
-  //     const updatedItems = prev.data.items.map((item) => {
-  //       if (item.productId._id === productId && item.quantity > 1) {
-  //         return { ...item, quantity: item.quantity - 1 };
-  //       }
-  //       return item;
-  //     });
-  //     return { ...prev, data: { ...prev.data, items: updatedItems } };
-  //   });
-  // };
 
   return (
     <CartContext.Provider
@@ -214,12 +142,9 @@ const decreaseQuantity = async (productId) => {
         getCartProducts,
         addToCart,
         removeFromCart,
-        // handleIncrease,
-        // handleDecrease,
-        decreaseQuantity,
-        increaseQuantity,
+        modifyQuantity,
         quantity,
-        setQuantity
+        setQuantity,
       }}
     >
       {children}

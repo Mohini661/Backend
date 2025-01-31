@@ -7,7 +7,6 @@ export const Context = createContext();
 
 const ContextProvider = ({ children }) => {
   const host = "http://localhost:5002";
-  const [productLists, setProductLists] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
@@ -33,7 +32,7 @@ const ContextProvider = ({ children }) => {
       });
       const userData = await response.json();
       console.log(userData);
-      if (userData.success && response.ok) {
+      if (response.ok && userData.success) {
         toast.success("User registered successfully!");
         console.log(userData.message);
 
@@ -63,6 +62,10 @@ const ContextProvider = ({ children }) => {
       console.log(userData.data);
       if (userData.success && response.ok) {
         localStorage.setItem("token", userData.data.accessToken);
+
+        // Store user details in localStorage as a JSON string
+        localStorage.setItem("userDetails", JSON.stringify(userData.data.user));
+
         setIsAuthenticated(true);
         setRole(userData.data.user.role);
 
@@ -119,11 +122,6 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  // const getProducts = () => {
-  //   fetch("https://dummyjson.com/products")
-  //     .then((res) => res.json())
-  //     .then((p) => setProductLists(p.products));
-  // };
   return (
     <Context.Provider
       value={{
@@ -133,8 +131,6 @@ const ContextProvider = ({ children }) => {
         passwordRef,
         cpasswordRef,
         addUser,
-        // productLists,
-        // getProducts,
         isAuthenticated,
         login,
         logout,
