@@ -228,10 +228,54 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const searchProductByName = async (req, res) => {
+  try {
+    // Get the search query from request
+    const { name } = req.query;
+
+    // If no name is provided, return an error
+    if (!name) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Please provide a product name to search."));
+    }
+
+    // Search for the product by name (case-insensitive, partial match)
+    const products = await Product.find({
+      name: { $regex: name, $options: "m" },
+    });
+
+    // If no products are found, return a message
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .json(
+          new ApiError(400, "No products found matching your search query.")
+        );
+    }
+
+    // Return the matching products
+    res
+      .status(200)
+      .json(new ApiResponse(200, products, "Product foung successfully"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(
+        new ApiError(
+          500,
+          "An error occurred while searching for products.",
+          error
+        )
+      );
+  }
+};
+
 export {
   createProduct,
   getProducts,
   getSingleProduct,
   deleteProduct,
   updateProduct,
+  searchProductByName
 };

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext.jsx";
 
 const Product = ({ product }) => {
-  const { addToCart, quantity,  } = useContext(CartContext);
+  const { addToCart, quantity } = useContext(CartContext);
 
   return (
     <div className="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -13,7 +13,11 @@ const Product = ({ product }) => {
             className="img-fluid w-100"
             src={product?.mainImage}
             alt=""
-            style={{ maxHeight: "300px" }}
+            style={{
+              maxHeight: "300px",
+              maxWidth: "300px",
+              // minHeight: "250px",
+            }}
           />
         </div>
         <div

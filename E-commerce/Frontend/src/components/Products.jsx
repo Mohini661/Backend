@@ -10,6 +10,7 @@ import Slider from "./Slider";
 import { Context } from "../context/Context";
 import { ProductContext } from "../context/ProductContext";
 
+
 const Products = () => {
   const { products, getProducts } = useContext(ProductContext);
   // console.log(products);

@@ -7,7 +7,7 @@ const Contact = () => {
       <div className="container-fluid bg-secondary mb-5">
         <div
           className="d-flex flex-column align-items-center justify-content-center"
-          style={{ minHeight: "300px" }}
+          style={{ minHeight: "180px" }}
         >
           <h1 className="font-weight-semi-bold text-uppercase mb-3">
             Contact Us

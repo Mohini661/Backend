@@ -4,6 +4,7 @@ import {
   deleteProduct,
   getProducts,
   getSingleProduct,
+  searchProductByName,
   updateProduct,
 } from "../controllers/product.controller.js";
 import { isAdmin, verifyJWT } from "../middlewares/auth.middleware.js";
@@ -32,5 +33,6 @@ router.route("/update-product/:id").patch(verifyJWT, isAdmin, updateProduct);
 
 router.route("/get-products").get(getProducts);
 router.route("/get-product/:id").get(getSingleProduct);
+router.route("/search").get(searchProductByName);
 
 export default router;

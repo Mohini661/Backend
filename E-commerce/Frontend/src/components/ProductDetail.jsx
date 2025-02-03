@@ -8,7 +8,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   // console.log(id);
   const { currentProduct, getSingleProduct } = useContext(ProductContext);
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, quantity, modifyQuantity } = useContext(CartContext);
 
   useEffect(() => {
     getSingleProduct(id);
@@ -206,29 +206,9 @@ const ProductDetail = () => {
               </form>
             </div>
             <div className="d-flex align-items-center mb-4 pt-2">
-              <div
-                className="input-group quantity mr-3"
-                style={{ width: "130px" }}
-              >
-                <div className="input-group-btn">
-                  <button className="btn btn-primary btn-minus">
-                    <i className="fa fa-minus"></i>
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  className="form-control bg-secondary text-center"
-                  defaultValue="1"
-                />
-                <div className="input-group-btn">
-                  <button className="btn btn-primary btn-plus">
-                    <i className="fa fa-plus"></i>
-                  </button>
-                </div>
-              </div>
               <button
                 className="btn btn-primary px-3"
-                onClick={() => addToCart(product?._id)}
+                onClick={() => addToCart(id, quantity)}
               >
                 <i className="fa fa-shopping-cart mr-1"></i> Add To Cart
               </button>

@@ -7,7 +7,7 @@ const Checkout = () => {
       <div className="container-fluid bg-secondary mb-5">
         <div
           className="d-flex flex-column align-items-center justify-content-center"
-          style={{ minHeight: "300px" }}
+          style={{ minHeight: "180px" }}
         >
           <h1 className="font-weight-semi-bold text-uppercase mb-3">
             Checkout
@@ -31,21 +31,21 @@ const Checkout = () => {
               <h4 className="font-weight-semi-bold mb-4">Billing Address</h4>
               <div className="row">
                 <div className="col-md-6 form-group">
-                  <label>First Name</label>
+                  <label>Full Name</label>
                   <input
                     className="form-control"
                     type="text"
                     placeholder="John"
                   />
                 </div>
-                <div className="col-md-6 form-group">
+                {/* <div className="col-md-6 form-group">
                   <label>Last Name</label>
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Doe"
                   />
-                </div>
+                </div> */}
                 <div className="col-md-6 form-group">
                   <label>E-mail</label>
                   <input
@@ -81,7 +81,8 @@ const Checkout = () => {
                 <div className="col-md-6 form-group">
                   <label>Country</label>
                   <select className="custom-select">
-                    <option selected>United States</option>
+                    <option selected>India</option>
+                    <option>United States</option>
                     <option>Afghanistan</option>
                     <option>Albania</option>
                     <option>Algeria</option>
@@ -146,21 +147,21 @@ const Checkout = () => {
               <h4 className="font-weight-semi-bold mb-4">Shipping Address</h4>
               <div className="row">
                 <div className="col-md-6 form-group">
-                  <label>First Name</label>
+                  <label>Full Name</label>
                   <input
                     className="form-control"
                     type="text"
                     placeholder="John"
                   />
                 </div>
-                <div className="col-md-6 form-group">
+                {/* <div className="col-md-6 form-group">
                   <label>Last Name</label>
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Doe"
                   />
-                </div>
+                </div> */}
                 <div className="col-md-6 form-group">
                   <label>E-mail</label>
                   <input
@@ -196,7 +197,8 @@ const Checkout = () => {
                 <div className="col-md-6 form-group">
                   <label>Country</label>
                   <select className="custom-select">
-                    <option selected>United States</option>
+                    <option selected>India</option>
+                    <option>United States</option>
                     <option>Afghanistan</option>
                     <option>Albania</option>
                     <option>Algeria</option>

@@ -10,12 +10,8 @@ const stripePromise = loadStripe(
 );
 
 const Cart = () => {
-  const {
-    getCartProducts,
-    cartProducts,
-    removeFromCart,    
-    modifyQuantity,
-  } = useContext(CartContext);
+  const { getCartProducts, cartProducts, removeFromCart, modifyQuantity } =
+    useContext(CartContext);
   // const { products } = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
